@@ -10,12 +10,12 @@ public class Game {
 
     public Game(String player1Name, String player2Name) {
         tabla = new Tabla();
-        player1 = new Jatekos(player1Name, 'Y'); // Sárga játékos
-        player2 = new Jatekos(player2Name, 'R'); // Piros játékos
-        currentPlayer = player1; // Sárga játékos kezd
+        player1 = new Jatekos(player1Name, 'Y');
+        player2 = new Jatekos(player2Name, 'R');
+        currentPlayer = player1;
     }
 
-    // Játék elindítása
+
     public void start() {
         Scanner scanner = new Scanner(System.in);
         boolean gameWon = false;
@@ -41,7 +41,7 @@ public class Game {
         scanner.close();
     }
 
-    // Játékos váltás
+
     private void switchPlayer() {
         currentPlayer = (currentPlayer == player1) ? player2 : player1;
     }
