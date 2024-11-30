@@ -83,4 +83,25 @@ public class Tabla {
         }
         return false;
     }
+
+    public String serialize() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLS; j++) {
+                sb.append(tabla[i][j]);
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
+    public void deserialize(String data) {
+        String[] rows = data.split("\n");
+        for (int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLS; j++) {
+                tabla[i][j] = rows[i].charAt(j);
+            }
+        }
+    }
+
 }

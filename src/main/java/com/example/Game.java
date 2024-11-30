@@ -1,5 +1,9 @@
 package com.example;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Game {
@@ -11,49 +15,49 @@ public class Game {
     public Game(String player1Name, String player2Name) {
         tabla = new Tabla();
         player1 = new Jatekos(player1Name, 'Y');
-        player2 = new Jatekos(player2Name, 'R');
+        player2 = new Jatekos(player2Name, 'X');
         currentPlayer = player1;
     }
 
-
-    public void start() {
-        Scanner scanner = new Scanner(System.in);
-        boolean gameWon = false;
-
-        while (!gameWon) {
-            tabla.printBoard();
-            System.out.println(currentPlayer.getName() + " (" + currentPlayer.getPiece() + "), válassz egy oszlopot (0-6): ");
-            int col = scanner.nextInt();
-
-            if (tabla.dropPiece(col, currentPlayer.getPiece())) {
-                if (tabla.checkWin(currentPlayer.getPiece())) {
-                    tabla.printBoard();
-                    System.out.println(currentPlayer.getName() + " nyert!");
-                    gameWon = true;
-                } else {
-                    switchPlayer();
-                }
-            } else {
-                System.out.println("Érvénytelen lépés, próbáld újra.");
-            }
-        }
-
-        scanner.close();
+    public Jatekos getCurrentPlayer() {
+        return currentPlayer;
     }
 
-
-    private void switchPlayer() {
+    public void switchPlayer() {
         currentPlayer = (currentPlayer == player1) ? player2 : player1;
     }
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Add meg az első játékos nevét: ");
-        String player1Name = scanner.nextLine();
-        System.out.print("Add meg a második játékos nevét: ");
-        String player2Name = scanner.nextLine();
+    public Tabla getTabla() {
+        return tabla;
+    }
 
-        Game game = new Game(player1Name, player2Name);
-        game.start();
+    public void saveGame(String fileName) {
+        try (PrintWriter writer = new PrintWriter(fileName)) {
+            writer.println(currentPlayer.getName());
+            writer.println(currentPlayer.getPiece());
+            writer.println(tabla.serialize());
+        } catch (IOException e) {
+            System.out.println("Hiba a játék mentése során: " + e.getMessage());
+        }
+    }
+
+    public void loadGame(String fileName) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String playerName = reader.readLine();
+            char playerPiece = reader.readLine().charAt(0);
+            currentPlayer = (player1.getName().equals(playerName)) ? player1 : player2;
+            StringBuilder tablaData = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                tablaData.append(line).append("\n");
+            }
+            tabla.deserialize(tablaData.toString().trim());
+        } catch (IOException e) {
+            System.out.println("Hiba a játék betöltése során: " + e.getMessage());
+        }
     }
 }
+
+
+
+

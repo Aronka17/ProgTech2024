@@ -12,10 +12,10 @@ public class Connect4 {
     public Connect4() {
         board = new char[ROWS][COLS];
         initializeBoard();
-        currentPlayer = 'Y'; // Sárga játékos kezd
+        currentPlayer = 'Y';
     }
 
-    // Tábla inicializálása üresen
+
     private void initializeBoard() {
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
@@ -24,7 +24,7 @@ public class Connect4 {
         }
     }
 
-    // Tábla kiíratása a konzolra
+
     public void printBoard() {
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
@@ -34,7 +34,7 @@ public class Connect4 {
         }
     }
 
-    // Korong bedobása az oszlopba
+
     public boolean dropPiece(int col) {
         if (col < 0 || col >= COLS) {
             System.out.println("Érvénytelen oszlop.");
@@ -50,19 +50,18 @@ public class Connect4 {
         return false;
     }
 
-    // Győzelem ellenőrzése
+
     public boolean checkWin() {
-        // Horizontális, vertikális és átlós ellenőrzés
-        // Ezt a részt ki lehet egészíteni
+
         return false;
     }
 
-    // Játékos váltás
+
     public void switchPlayer() {
         currentPlayer = (currentPlayer == 'Y') ? 'R' : 'Y';
     }
 
-    // A fő játék loop
+
     public static void main(String[] args) {
         Connect4 game = new Connect4();
         Scanner scanner = new Scanner(System.in);
